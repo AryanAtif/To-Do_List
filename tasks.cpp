@@ -67,15 +67,23 @@ void open_config_file()
   // For debugging
   std::cout << "File opened!" << std::endl;
 
-  //TODO: Read the config file to get the path for the md file.
+  //TODO: Read the config file to get the path for the .md file.
 }
 
 
 void read_file(std::fstream file)
 {
-  
-  //for (int i = 0; ; i++)
-   
+
+  file.seekg(0, file.end); // move from the first character to the last one.
+  int length = file.tellg(); // tell where the g pointer is right now -- it should be at the end of the file, telling the file size
+
+  char* data = new char [length];
+
+  for (int i = 0; i < length; i++)
+  {
+    file.getline(data, 256);
+    std::cout << "Line " << i << ": " << std::string(*data[i]) << std::endl;
+  }
 }
 
 
