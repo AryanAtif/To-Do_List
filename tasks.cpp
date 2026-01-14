@@ -70,7 +70,7 @@ void open_config_file()
   //TODO: Read the config file to get the path for the .md file.
 }
 
-
+///  PLAN: to take the last 'source =' line as the path of the .md file  
 void read_file(std::fstream file)
 {
 
@@ -78,12 +78,45 @@ void read_file(std::fstream file)
   int length = file.tellg(); // tell where the g pointer is right now -- it should be at the end of the file, telling the file size
 
   char* data = new char [length];
+  
 
-  for (int i = 0; i < length; i++)
+  file.read (data, length);
+
+  if(file) { std::cout << "Data read successfully." << std::endl; }
+  else {std::cerr << "Error: reading the file" << std::endl;}
+
+  std::string data_in_lines[] = "";
+  int line = 0;
+
+  for (int i = 0, j = 0; i < length; i++)
   {
-    file.getline(data, 256);
-    std::cout << "Line " << i << ": " << std::string(*data[i]) << std::endl;
+    if (data[i] == '\n')
+    {
+      for (; j < i; j++)
+      {
+        data_in_lines[line] += data[j]   
+      }
+      line ++;
+      j++;
+    }
   }
+
+/*
+  for (int i = 0; i < length; i++)
+  { 
+    // ignore the statements that start with '#'
+    if (data[i] == '#' && (i == 0 || (i-1) == '\n')) 
+    {
+      std::cin.ignore(256, '\n')
+    } 
+      
+    if (data [i])
+    {
+
+    }
+
+  }
+*/
+
+  
 }
-
-
