@@ -1,2 +1,5 @@
 # The Executable file
 tasks
+
+# Any md file
+*.md
