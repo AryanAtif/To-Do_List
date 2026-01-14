@@ -1,5 +1,6 @@
-#include <iostream>
 #include <cerrno>
+#include <cstring>
+#include <iostream>
 #include <fstream>
 
 void open_config_file();
@@ -8,13 +9,14 @@ void open_config_file(std::string);
 
 int main(int argc, char* argv[])
 {
+  std::cout << "argc = " << argc << std::endl;
 
-  std::string command[argc -1];
+  std::string command[argc - 1];
 
   for (int i = 1; i < argc; i++)
   {
-    command[i] = *argv[i];
-    std::cout << "command [" << i << "] = " << command[i] << std::endl;
+    command[i] = std::string(argv[i]);
+    std::cout <<"command [" << i << "] = " << command[i] << std::endl;
   }
 
   if (argc == 1)                                                                              // > ./task
