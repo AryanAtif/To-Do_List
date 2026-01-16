@@ -52,15 +52,17 @@ void open_c_file() // throughout this method, the prefix "c_" shall mean "config
 {
   const char* home = std::getenv("HOME");
 
-  if (!home) {std::cerr << "There was an error finding the home directory" << std::endl; return;} // TODO: add exceptions
+  if (!home) {std::cerr << "There was an error finding the home directory." << std::endl; return;} // TODO: add exceptions
                                                                                                   
   // create an object of the class std::filesystem::path and assign the path to the home directory to it.
   std::filesystem::path c_file_path = home;     
 
   c_file_path /= ".task_conf";
   
-  std::fstream c_file (c_file_path, std::ios::in | std::ios::out | std::ios::app);
-  
+  std::fstream c_file (c_file_path, std::ios::in | std::ios::out | std::ios::app); 
+  c_file.flush();
+  c_file.seekg(0, c_file.beg);         // move the cursor to the beginning
+
   if(!c_file) { std::cerr << "Error opening the config file" << std::endl; return;} // TODO: Add exceptions
   
 
@@ -96,13 +98,15 @@ int get_characters (std::fstream& file)
 void read_file(std::fstream& file)
 {
   int length = get_characters(file); // get the number of characters inside in the file
-                                     //
-  char* data = new char [length + 1];
+  file.seekg(0, file.beg);         // move the cursor to the beginning
+
+  char* data = new char [length];
   
   file.read (data, length);
 
-  if(file) { std::cout << "Data read successfully." << std::endl; }
-  else {std::cerr << "Error: reading the file, only " << file.gcount() << " characters out of " << length << " could be read." << std::endl; return;}
+  if(file) { std::cout << "Data read successfully. " << file.gcount() << " out of " << length << " read." << std::endl; }
+  else 
+  {std::cerr << "Error: reading the file, only " << file.gcount() << " characters out of " << length << " could be read." << std::endl; return;}
 
 
   // convert the data read from the file into a string stream
