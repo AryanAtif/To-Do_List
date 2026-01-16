@@ -125,21 +125,16 @@ void read_file(std::fstream& file)
       std::getline(data_stream, buf);
       data_in_line.push_back(buf);
       std::cout << data_in_line.back() << std::endl;
-      line++;
+  }
+
+
+
+  // finding the occurance of "source ="
+  
+  size_t is_source_present = -1;
+
+  for (int i = 0; ; i++)
+  {
+    data_in_line.at(1)
   }
 }
-
-/*
-  for (int i = 0; i < length; i++)
-  { 
-    // ignore the statements that start with '#'
-    if (data[i] == '#' && (i == 0 || (i-1) == '\n')) 
-    {
-      std::cin.ignore(256, '\n')
-    } 
-    if (data [i])
-    {
-    }
-  }
-*/
-
