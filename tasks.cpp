@@ -91,9 +91,6 @@ int get_characters (std::fstream& file)
 }
 
 
-
-
-
 ///  PLAN: to take the last 'source =' line as the path of the .md file  
 void read_file(std::fstream& file)
 {
@@ -115,7 +112,6 @@ void read_file(std::fstream& file)
   std::string buf; //temp buffer 
   int line = 0;
   
-  //--------------------- its ok til here -----------------------\\
 
   // Break down the file data into separate lines
   // Doing this because:
@@ -124,7 +120,7 @@ void read_file(std::fstream& file)
   //      2. There can be more than one address lines, we need to make sure we choose the latest one, that should be the last source lines
   //         in the file.
   //
-  for (int i = 0; i < length; i++) // run until i < the number of characters in data
+  for (int i = 0; !data_stream.eof(); i++) // run until i < the number of characters in data
   {
       std::getline(data_stream, buf);
       data_in_line.push_back(buf);
