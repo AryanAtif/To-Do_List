@@ -1,15 +1,16 @@
-#include <cerrno>
 #include <cstdlib>
 #include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <sstream>
+#include <vector>
 
+void open_c_file();
+void open_c_file(std::string);
 
-void open_config_file();
-void open_config_file(std::string);
-
-void read_file(std::fstream file);
+void read_file(std::fstream& file);
+int get_characters(std::fstream& file);
 
 int main(int argc, char* argv[])
 {
@@ -33,7 +34,7 @@ int main(int argc, char* argv[])
   }
   else if (argc <= 3 && (command[1] == "-a" || command[1] == "-l" || command[1] == "-d"))               // > ./task -l || > ./task -l <something>
   {
-    open_config_file();
+    open_c_file();
 
   }
   /* else if (argc <= 3 && (argv[1] == "--add" ||argv[1] == "--list" || argv[1] == "--delete")) //>./task --list || >./task --list<something>
@@ -47,59 +48,84 @@ int main(int argc, char* argv[])
 }
 
 
-void open_config_file()
+void open_c_file() // throughout this method, the prefix "c_" shall mean "config_", e.g "c_file" would mean "config_file"
 {
   const char* home = std::getenv("HOME");
 
   if (!home) {std::cerr << "There was an error finding the home directory" << std::endl; return;} // TODO: add exceptions
                                                                                                   
   // create an object of the class std::filesystem::path and assign the path to the home directory to it.
-  std::filesystem::path config_file_path = home;     
+  std::filesystem::path c_file_path = home;     
 
-  config_file_path /= ".task.conf";
+  c_file_path /= ".task_conf";
+  
+  std::fstream c_file (c_file_path, std::ios::in | std::ios::out | std::ios::app);
+  
+  if(!c_file) { std::cerr << "Error opening the config file" << std::endl; return;} // TODO: Add exceptions
+  
 
-  std::fstream config_file(config_file_path, std::ios::in | std::ios::out | std::ios::app);
-  
-  if(!config_file) { std::cerr << "Error opening the config file" << std::endl; return;} // TODO: Add exceptions
-  
-  if(config_file.gcount() == 0) { std::cerr << "The config file is empty. Run ./tasks -c or ./tasks --config to create it." << std::endl; return;}
+  // Reading the number of character in a file
+  int c_characters = get_characters(c_file); 
+  if(c_characters == 0) { std::cerr << "The config file is empty. Run ./tasks -c or ./tasks --config to create it." << std::endl; return;}
+  else {std::cout << "The file does exist." << std::endl;}
   
   // For debugging
   std::cout << "File opened!" << std::endl;
 
+
   //TODO: Read the config file to get the path for the .md file.
+  
+  read_file(c_file);
 }
 
-///  PLAN: to take the last 'source =' line as the path of the .md file  
-void read_file(std::fstream file)
+
+
+int get_characters (std::fstream& file)
 {
+  file.seekg(0, file.end);         // move from the first character to the last one.
+  int characters = file.tellg();  // tell where the g pointer is right now -- it should be at the end of the file, telling the file size
 
-  file.seekg(0, file.end); // move from the first character to the last one.
-  int length = file.tellg(); // tell where the g pointer is right now -- it should be at the end of the file, telling the file size
+  return characters;
+}
 
-  char* data = new char [length];
+
+
+
+
+///  PLAN: to take the last 'source =' line as the path of the .md file  
+void read_file(std::fstream& file)
+{
+  int length = get_characters(file); // get the number of characters inside in the file
+                                     //
+  char* data = new char [length + 1];
   
-
   file.read (data, length);
 
   if(file) { std::cout << "Data read successfully." << std::endl; }
-  else {std::cerr << "Error: reading the file" << std::endl;}
+  else {std::cerr << "Error: reading the file, only " << file.gcount() << " characters out of " << length << " could be read." << std::endl; return;}
 
-  std::string data_in_lines[] = "";
+
+  // convert the data read from the file into a string stream
+  std::istringstream data_stream (data); // so that i can stream in the data into getline
+
+  std::vector <std::string> data_in_line; // so that i don't i have a dynamic array
   int line = 0;
+  
 
-  for (int i = 0, j = 0; i < length; i++)
+  // Break down the file data into separate lines
+  // im doing this because:
+  //      1. Breaking down the data of the file will help me find the line with "source =" which then can be used to find the absolute
+  //         address of the .md file
+  //      2. There can be more than one address lines, i need to make sure i choose the lastest one, that should be the last source lines
+  //         in the file.
+  //
+  for (int i = 0; !data_stream.eof(); i++)
   {
-    if (data[i] == '\n')
-    {
-      for (; j < i; j++)
-      {
-        data_in_lines[line] += data[j]   
-      }
-      line ++;
-      j++;
-    }
+      std::getline(data_stream, data_in_line[i]);
+      std::cout << data_in_line[i] << std::endl;
+      line++;
   }
+}
 
 /*
   for (int i = 0; i < length; i++)
@@ -109,14 +135,9 @@ void read_file(std::fstream file)
     {
       std::cin.ignore(256, '\n')
     } 
-      
     if (data [i])
     {
-
     }
-
   }
 */
 
-  
-}
