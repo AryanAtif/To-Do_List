@@ -9,7 +9,8 @@
 void open_c_file();
 void open_c_file(std::string);
 
-void find_sequence (std::vector <std::string>& string, std::string& required_sequence);
+int find_sequence (std::vector <std::string>& string, std::string& required_sequence);
+std::string find_path (std::string path_line, std::string requried_sequence);
 
 void read_file(std::fstream& file);
 int get_characters(std::fstream& file);
@@ -129,11 +130,15 @@ void read_file(std::fstream& file)
 
   // find the last occurance of the sequence: "source ="
   std::string required_sequence = "source =";
-  find_sequence (data_in_line, required_sequence);
+  int md_file_path = find_sequence (data_in_line, required_sequence);
+ 
+  if (md_file_path == -1) { std::cout << "There was an error finding the saved file. Make sure the config file holds the path to the file." << std::endl; return;}
+
+  std::cout << "The path to the md file: " << find_path(data_in_line.at(md_file_path), required_sequence) << std::endl;
 }
 
 
-void find_sequence (std::vector <std::string>& file_lines, std::string& required_sequence)
+int find_sequence (std::vector <std::string>& file_lines, std::string& required_sequence)
 {
   int sequence_size = int(size(required_sequence));
   int lines = file_lines.size();
@@ -157,12 +162,16 @@ void find_sequence (std::vector <std::string>& file_lines, std::string& required
         std::cout << "Character " << j+1 << " of line" << i << " matched!" << std::endl << "Match cout: " << match_count << std::endl;
       }
     }
-    
-    if (match_count == sequence_size) { std::cout << "Matched!" << std::endl; break; }
-
-    else { std::cout << "Nope!" << std::endl; continue;}
-
+    if (match_count == sequence_size) { std::cout << "Matched!" << std::endl; return i;}
   }
-  std::cout << "out of the loop neow" << std::endl;
+  return -1;
+}
+
+std::string find_path (std::string path_line, std::string required_sequence)
+{
+  size_t sequence_size = std::size(required_sequence);
+  std::string path = path_line.substr(sequence_size);
+
+  return path;
 }
 
