@@ -9,6 +9,8 @@
 void open_c_file();
 void open_c_file(std::string);
 
+void find_sequence (std::vector <std::string>& string, std::string& required_sequence);
+
 void read_file(std::fstream& file);
 int get_characters(std::fstream& file);
 
@@ -91,7 +93,7 @@ int get_characters (std::fstream& file)
 }
 
 
-///  PLAN: to take the last 'source =' line as the path of the .md file  
+// PLAN: to take the last 'source =' line as the path of the .md file  
 void read_file(std::fstream& file)
 {
   int length = get_characters(file); // get the number of characters inside in the file
@@ -123,16 +125,18 @@ void read_file(std::fstream& file)
   {
       std::getline(data_stream, buf);
       data_in_line.push_back(buf);
-      // std::cout << data_in_line.back() << std::endl;
   }
 
   // find the last occurance of the sequence: "source ="
-  // TODO: make a new function out of it: 
   std::string required_sequence = "source =";
-  
-  int lines = data_in_line.size();
-  
+  find_sequence (data_in_line, required_sequence);
+}
+
+
+void find_sequence (std::vector <std::string>& file_lines, std::string& required_sequence)
+{
   int sequence_size = int(size(required_sequence));
+  int lines = file_lines.size();
   std::cout << "The size of the sequence: " << sequence_size << std::endl;
   std::cout << "The size of the vector: " << lines << std::endl;
 
@@ -141,13 +145,13 @@ void read_file(std::fstream& file)
   for (int i = lines - 1; i > 0; i--)
   {
     match_count = 0;
-    std::cout << "Checking " << i << ": " << data_in_line.at(i) << std::endl;
+    std::cout << "Checking " << i << ": " << file_lines.at(i) << std::endl;
 
     for (int j = 0; j < sequence_size; j++)
     {
-      if (data_in_line.at(i)[j] == '\0') { break; } // if we go over the bounds of data_in_line
+      if (file_lines.at(i)[j] == '\0') { break; } // if we go over the bounds of data_in_line
 
-      else if (data_in_line.at(i)[j] == required_sequence [j])
+      else if (file_lines.at(i)[j] == required_sequence [j])
       {
         match_count++;
         std::cout << "Character " << j+1 << " of line" << i << " matched!" << std::endl << "Match cout: " << match_count << std::endl;
@@ -160,5 +164,5 @@ void read_file(std::fstream& file)
 
   }
   std::cout << "out of the loop neow" << std::endl;
-
 }
+
