@@ -142,16 +142,11 @@ int find_sequence (std::vector <std::string>& file_lines, std::string& required_
 {
   int sequence_size = int(size(required_sequence));
   int lines = file_lines.size();
-  std::cout << "The size of the sequence: " << sequence_size << std::endl;
-  std::cout << "The size of the vector: " << lines << std::endl;
-
   int match_count;
 
   for (int i = lines - 1; i > 0; i--)
   {
     match_count = 0;
-    std::cout << "Checking " << i << ": " << file_lines.at(i) << std::endl;
-
     for (int j = 0; j < sequence_size; j++)
     {
       if (file_lines.at(i)[j] == '\0') { break; } // if we go over the bounds of data_in_line
@@ -159,10 +154,9 @@ int find_sequence (std::vector <std::string>& file_lines, std::string& required_
       else if (file_lines.at(i)[j] == required_sequence [j])
       {
         match_count++;
-        std::cout << "Character " << j+1 << " of line" << i << " matched!" << std::endl << "Match cout: " << match_count << std::endl;
       }
     }
-    if (match_count == sequence_size) { std::cout << "Matched!" << std::endl; return i;}
+    if (match_count == sequence_size) {return i;}
   }
   return -1;
 }
