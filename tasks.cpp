@@ -107,7 +107,7 @@ void read_file(std::fstream& file)
   
   // convert the data read from the file into a string stream
   std::istringstream data_stream (data); // so that we can stream in the data into getline
-  std::vector <const char *> data_in_line; // so that we have a dynamic array
+  std::vector <std::string> data_in_line; // so that we have a dynamic array
   std::string buf; //temp buffer 
   int line = 0;
   
@@ -122,8 +122,43 @@ void read_file(std::fstream& file)
   for (int i = 0; !data_stream.eof(); i++) // run until i < the number of characters in data
   {
       std::getline(data_stream, buf);
-      data_in_line.push_back(buf.c_str());
-      std::cout << data_in_line.back() << std::endl;
+      data_in_line.push_back(buf);
+      // std::cout << data_in_line.back() << std::endl;
   }
+
+  // find the last occurance of the sequence: "source ="
+  // TODO: make a new function out of it: 
+  std::string required_sequence = "source =";
+  
+  int lines = data_in_line.size();
+  
+  int sequence_size = int(size(required_sequence));
+  std::cout << "The size of the sequence: " << sequence_size << std::endl;
+  std::cout << "The size of the vector: " << lines << std::endl;
+
+  int match_count;
+
+  for (int i = lines - 1; i > 0; i--)
+  {
+    match_count = 0;
+    std::cout << "Checking " << i << ": " << data_in_line.at(i) << std::endl;
+
+    for (int j = 0; j < sequence_size; j++)
+    {
+      if (data_in_line.at(i)[j] == '\0') { break; } // if we go over the bounds of data_in_line
+
+      else if (data_in_line.at(i)[j] == required_sequence [j])
+      {
+        match_count++;
+        std::cout << "Character " << j+1 << " of line" << i << " matched!" << std::endl << "Match cout: " << match_count << std::endl;
+      }
+    }
+    
+    if (match_count == sequence_size) { std::cout << "Matched!" << std::endl; break; }
+
+    else { std::cout << "Nope!" << std::endl; continue;}
+
+  }
+  std::cout << "out of the loop neow" << std::endl;
 
 }
