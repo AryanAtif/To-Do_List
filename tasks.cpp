@@ -105,7 +105,7 @@ void read_file(std::fstream& file)
   else 
   {std::cerr << "Error: reading the file, only " << file.gcount() << " characters out of " << length << " could be read." << std::endl; return;}
 
-  
+ /* 
   // convert the data read from the file into a string stream
   std::istringstream data_stream (data); // so that we can stream in the data into getline
   std::vector <std::string> data_in_line; // so that we have a dynamic array
@@ -126,15 +126,26 @@ void read_file(std::fstream& file)
       data_in_line.push_back(buf);
       std::cout << data_in_line.back() << std::endl;
   }
-
-
-
-  // finding the occurance of "source ="
+*/
+  // convert the data read from the file into a string stream
+  std::istringstream data_stream (data); // so that we can stream in the data into getline
+  std::vector <const char *> data_in_line; // so that we have a dynamic array
+  std::string buf; //temp buffer 
+  int line = 0;
   
-  size_t is_source_present = -1;
 
-  for (int i = 0; ; i++)
+  // Break down the file data into separate lines
+  // Doing this because:
+  //      1. Breaking down the data of the file will help to find the line with "source =" which then can be used to find the absolute
+  //         address of the .md file
+  //      2. There can be more than one address lines, we need to make sure we choose the latest one, that should be the last source lines
+  //         in the file.
+  //
+  for (int i = 0; !data_stream.eof(); i++) // run until i < the number of characters in data
   {
-    data_in_line.at(1)
+      std::getline(data_stream, buf);
+      data_in_line.push_back(buf.c_str());
+      std::cout << data_in_line.back() << std::endl;
   }
+
 }
