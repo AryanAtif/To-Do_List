@@ -7,7 +7,7 @@
 #include <iostream>
 
 #include "config_file.h"
-
+#include "md_file.h"
 
 int main(int argc, char* argv[])
 {
@@ -31,7 +31,10 @@ int main(int argc, char* argv[])
   }
   else if (argc <= 3 && (command[1] == "-a" || command[1] == "-l" || command[1] == "-d"))               // > ./task -l || > ./task -l <something>
   {
-    open_c_file();
+    std::string path = open_c_file();
+    if (path == "-1") {return 1;}
+    open_md_file(path);
+    // write_md_file(path);
 
   }
   /* else if (argc <= 3 && (argv[1] == "--add" ||argv[1] == "--list" || argv[1] == "--delete")) //>./task --list || >./task --list<something>

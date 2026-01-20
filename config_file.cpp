@@ -9,11 +9,11 @@
 #include "config_file.h"
 #include "misc.h"
 
-void open_c_file() // throughout this method, the prefix "c_" shall mean "config_", e.g "c_file" would mean "config_file"
+std::string open_c_file() // throughout this method, the prefix "c_" shall mean "config_", e.g "c_file" would mean "config_file"
 {
   const char* home = std::getenv("HOME");
 
-  if (!home) {std::cerr << "There was an error finding the home directory." << std::endl; return;} // TODO: add exceptions
+  if (!home) {std::cerr << "There was an error finding the home directory." << std::endl; return "-1";} // TODO: add exceptions
                                                                                                   
   // create an object of the class std::filesystem::path and assign the path to the home directory to it.
   std::filesystem::path c_file_path = home;     
@@ -24,19 +24,23 @@ void open_c_file() // throughout this method, the prefix "c_" shall mean "config
   c_file.flush();
   c_file.seekg(0, c_file.beg);         // move the cursor to the beginning
 
-  if(!c_file) { std::cerr << "Error opening the config file" << std::endl; return;} // TODO: Add exceptions
+  if(!c_file) { std::cerr << "Error opening the config file" << std::endl; return "-1";} // TODO: Add exceptions
   
 
   // Reading the number of character in a file
   int c_characters = get_characters(c_file); 
-  if(c_characters == 0) { std::cerr << "The config file is empty. Run ./tasks -c or ./tasks --config to create it." << std::endl; return;}
+  if(c_characters == 0) { std::cerr << "The config file is empty. Run ./tasks -c or ./tasks --config to create it." << std::endl; return "-1";}
 
-  read_file(c_file);
+  std::string path = read_file(c_file);
+  
+  if (path == "-1") {return "-1";}
+
+  return path; 
 
 }
 
 // PLAN: to take the last 'source =' line as the path of the .md file  
-void read_file(std::fstream& file)
+std::string read_file(std::fstream& file)
 {
   int length = get_characters(file); // from misc.h // get the number of characters inside in the file
   file.seekg(0, file.beg);         // move the cursor to the beginning
@@ -47,7 +51,7 @@ void read_file(std::fstream& file)
 
   if(file) { std::cout << "Data read successfully. " << file.gcount() << " out of " << length << " read." << std::endl; }
   else 
-  {std::cerr << "Error: reading the file, only " << file.gcount() << " characters out of " << length << " could be read." << std::endl; return;}
+  {std::cerr << "Error: reading the file, only " << file.gcount() << " characters out of " << length << " could be read." << std::endl; return "-1";}
   
   // convert the data read from the file into a string stream
   std::istringstream data_stream (data); // so that we can stream in the data into getline
@@ -73,9 +77,13 @@ void read_file(std::fstream& file)
   std::string required_sequence = "source =";
   int md_file_path = find_sequence (data_in_line, required_sequence);
  
-  if (md_file_path == -1) { std::cout << "There was an error finding the saved file. Make sure the config file holds the path to the file." << std::endl; return;}
+  if (md_file_path == -1) { std::cout << "There was an error finding the saved file. Make sure the config file holds the path to the file." << std::endl; return "-1";}
 
-  std::cout << "The path to the md file: " << find_path(data_in_line.at(md_file_path), required_sequence) << std::endl;
+  std::string path = find_path(data_in_line.at(md_file_path), required_sequence);
+
+  std::cout << "The path to the md file: " << path << std::endl;
+
+  return path;
 }
 
 int find_sequence (std::vector <std::string>& file_lines, std::string& required_sequence)

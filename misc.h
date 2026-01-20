@@ -5,4 +5,4 @@
 
 int get_characters(std::fstream& file);
 
-#endif // !
+#endif
