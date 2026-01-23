@@ -1,5 +1,4 @@
-# The Executable file
-tasks
-
+# The output file
+.o
 # Any md file
 *.md
