@@ -33,8 +33,13 @@ int main(int argc, char* argv[])
   {
     std::string path = open_c_file();
     if (path == "-1") {return 1;}
-    open_md_file(path);
-    // write_md_file(path);
+
+    std::filesystem::path md_file_path = get_md_file_path(path);
+    std::string md_file_name = get_file_name(md_file_path);
+    //fstream
+    
+    
+    //initialize_file(path);
 
   }
   /* else if (argc <= 3 && (argv[1] == "--add" ||argv[1] == "--list" || argv[1] == "--delete")) //>./task --list || >./task --list<something>
