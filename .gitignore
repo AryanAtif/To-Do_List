@@ -1,4 +1,4 @@
 # The output file
-.o
+*.o
 # Any md file
 *.md
