@@ -6,6 +6,7 @@
 #include <sstream>
 #include <iostream>
 
+#include "globals.h"
 #include "config_file.h"
 #include "md_file.h"
 
@@ -35,8 +36,9 @@ int main(int argc, char* argv[])
     if (path == "-1") {return 1;}
 
     std::filesystem::path md_file_path = get_md_file_path(path);
+    open_md_file(md_file_path);
+    //fstream md_file 
     std::string md_file_name = get_file_name(md_file_path);
-    //fstream
     
     
     //initialize_file(path);
@@ -51,8 +53,3 @@ int main(int argc, char* argv[])
     std::cout << "in else" << std::endl; std::cout << "Syntax: ./task --command <task>" << std::endl; 
   }
 }
-
-/*std::string get_md_file_path()
-{
-  open_c_file();
-}*/

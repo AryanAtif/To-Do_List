@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <vector>
 
+#include "globals.h"
 #include "config_file.h"
 #include "misc.h"
 
@@ -20,7 +21,7 @@ std::string open_c_file() // throughout this method, the prefix "c_" shall mean 
 
   c_file_path /= ".task_conf";
   
-  std::fstream c_file (c_file_path, std::ios::in | std::ios::out | std::ios::app); 
+  c_file.open ( c_file_path, std::ios::in | std::ios::out | std::ios::app);  // the config file
   c_file.flush();
   c_file.seekg(0, c_file.beg);         // move the cursor to the beginning
 

@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+
+#include "globals.h"
 #include "md_file.h"
 
 // open the markdown file 
@@ -27,9 +29,17 @@ std::filesystem::path get_md_file_path (std::string& path)
   std::filesystem::path md_file_path = home;     
   md_file_path /= path;
 
-  // Open/Create the md file with the path created above
-  std::fstream md_file (md_file_path, std::ios::in | std::ios::out | std::ios::app);  
   return md_file_path;
+}
+
+void open_md_file(std::filesystem::path &md_file_path)
+{
+  md_file.open (md_file_path, std::ios::in | std::ios::out | std::ios::app); // the md file
+  md_file.flush();
+  md_file.seekg(0, c_file.beg);         // move the cursor to the beginning
+  
+  if(!md_file) { std::cerr << "Error opening the markdown file" << std::endl; return;} 
+  else { std::cout << "File opened!" << std::endl;}
 }
 
 bool is_valid_path (std::string &path)
@@ -47,7 +57,7 @@ std::string get_file_name (std::filesystem::path &file_path)
 }
 
 /*
-void initialize_file (fstream file)
+void initialize_file (std::string filename, fstream file,)
 {
   file << "###"
 }*/
