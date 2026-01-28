@@ -75,7 +75,7 @@ std::string read_file(std::fstream& file)
   }
 
   // find the last occurance of the sequence: "source ="
-  std::string required_sequence = "source =";
+  std::string required_sequence = "source=";
   int md_file_path = find_sequence (data_in_line, required_sequence);
  
   if (md_file_path == -1) { std::cout << "There was an error finding the saved file. Make sure the config file holds the path to the file." << std::endl; return "-1";}

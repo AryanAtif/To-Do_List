@@ -34,9 +34,11 @@ int main(int argc, char* argv[])
   {
     std::string path = open_c_file();
     if (path == "-1") {return 1;}
-
-    std::filesystem::path md_file_path = get_md_file_path(path);
-    open_md_file(md_file_path);
+    
+    // after the config_file has been found, find the md_file where we're supposed to read and write the to-do list 
+    std::filesystem::path md_file_path = get_md_file_path(path); //finding the path to the md_file
+    std::cout << "The path to the md file: " << std::string (md_file_path) << std::endl;
+    open_md_file(md_file_path); //opening the md_file using that path
     //fstream md_file 
     std::string md_file_name = get_file_name(md_file_path);
     

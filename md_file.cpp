@@ -8,7 +8,7 @@
 // open the markdown file 
 void clear_the_path (std::string& path)
 {
-  path.erase (0,2); // Erase '"~' from the beginning
+  path.erase (0,3); // Erase '"~/' from the beginning
   path.erase(path.length()-1, path.length());  //  erase the last '"' 
 
   std::cout << "the path after the ops: " << path << std::endl;
@@ -36,7 +36,7 @@ void open_md_file(std::filesystem::path &md_file_path)
 {
   md_file.open (md_file_path, std::ios::in | std::ios::out | std::ios::app); // the md file
   md_file.flush();
-  md_file.seekg(0, c_file.beg);         // move the cursor to the beginning
+  md_file.seekg(0, md_file.beg);         // move the cursor to the beginning
   
   if(!md_file) { std::cerr << "Error opening the markdown file" << std::endl; return;} 
   else { std::cout << "File opened!" << std::endl;}
