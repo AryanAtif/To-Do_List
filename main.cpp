@@ -41,10 +41,8 @@ int main(int argc, char* argv[])
     open_md_file(md_file_path); //opening the md_file using that path
     //fstream md_file 
     std::string md_file_name = get_file_name(md_file_path);
+    initialize_file (md_file_name);
     
-    
-    //initialize_file(path);
-
   }
   /* else if (argc <= 3 && (argv[1] == "--add" ||argv[1] == "--list" || argv[1] == "--delete")) //>./task --list || >./task --list<something>
   {

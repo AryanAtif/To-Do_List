@@ -40,6 +40,7 @@ void open_md_file(std::filesystem::path &md_file_path)
   
   if(!md_file) { std::cerr << "Error opening the markdown file" << std::endl; return;} 
   else { std::cout << "File opened!" << std::endl;}
+
 }
 
 bool is_valid_path (std::string &path)
@@ -56,9 +57,14 @@ std::string get_file_name (std::filesystem::path &file_path)
   return (std::string)file_path.filename(); 
 }
 
-/*
-void initialize_file (std::string filename, fstream file,)
+//==============================================================
+//=========== Perform Operations on the file ===================
+//==============================================================
+
+
+
+void initialize_file (std::string filename)
 {
-  file << "###"
-}*/
+  md_file << "# " << filename << '\n';
+}
 
