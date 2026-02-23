@@ -32,7 +32,7 @@ std::filesystem::path get_md_file_path (std::string& path)
   return md_file_path;
 }
 
-void open_md_file(std::filesystem::path &md_file_path)
+void open_md_file(std::filesystem::path &md_file_path, std::string filename)
 {
   md_file.open (md_file_path, std::ios::in | std::ios::out | std::ios::app); // the md file
   md_file.flush();
@@ -40,6 +40,9 @@ void open_md_file(std::filesystem::path &md_file_path)
   
   if(!md_file) { std::cerr << "Error opening the markdown file" << std::endl; return;} 
   else { std::cout << "File opened!" << std::endl;}
+
+
+  //Check if the md_file is empty
 
 }
 
