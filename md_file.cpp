@@ -44,6 +44,7 @@ void open_md_file(std::filesystem::path &md_file_path, std::string filename)
 
   //Check if the md_file is empty
 
+
 }
 
 bool is_valid_path (std::string &path)
