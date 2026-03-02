@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
   }
   else if ( command[1] == "-h" || command [1] == "--help" )                                           // > ./task -h    ||  > ./task --help
   {
-    std::cout << "helping... im helping so hard rn" << std::endl;
+    std::cout << "helping..." << std::endl;
   }
   else if (argc <= 3 && (command[1] == "-a" || command[1] == "-l" || command[1] == "-d"))               // > ./task -l || > ./task -l <something>
   {

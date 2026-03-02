@@ -37,12 +37,13 @@ void open_md_file(std::filesystem::path &md_file_path, std::string filename)
   md_file.open (md_file_path, std::ios::in | std::ios::out | std::ios::app); // the md file
   md_file.flush();
   md_file.seekg(0, md_file.beg);         // move the cursor to the beginning
-  
+ 
   if(!md_file) { std::cerr << "Error opening the markdown file" << std::endl; return;} 
   else { std::cout << "File opened!" << std::endl;}
 
 
   //Check if the md_file is empty
+  // Ignore the ' ' and the '\n' inside the file, but if there's a line with a character that is not '[] ____' declare the file to not be suitable for the app
 
 
 }
@@ -60,15 +61,27 @@ std::string get_file_name (std::filesystem::path &file_path)
 {
   return (std::string)file_path.filename(); 
 }
+  /*
+bool is_md_file_valid (fstream md_file)
+{
+  int length = get_file_length (md_file);
 
+  char * md_file_line;
+  int char_read = 0;
+
+  while (md_file_line[0] == ' ' || md_file_line[0] == '[' || md_file_line[0] == '\n')
+  {
+    getline 
+  }
+}
+*/
 //==============================================================
 //=========== Perform Operations on the file ===================
 //==============================================================
 
 
 
-void initialize_file (std::string filename)
+void initialize_file (std::string filename) // just add tasks, there's no need to add headings and stuff
 {
-  md_file << "# " << filename << '\n';
 }
 

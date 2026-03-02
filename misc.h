@@ -3,6 +3,6 @@
 
 #include <fstream>
 
-int get_characters(std::fstream& file);
+int get_file_length (std::fstream& file);
 
 #endif
