@@ -58,29 +58,6 @@ std::string read_file(std::fstream& file)
   return path;
 }
 
-int find_sequence (std::vector <std::string>& file_lines, std::string& required_sequence)
-{
-  int sequence_size = int(size(required_sequence));
-  int lines = file_lines.size();
-  int match_count;
-
-  for (int i = lines - 1; i > 0; i--)
-  {
-    match_count = 0;
-    for (int j = 0; j < sequence_size; j++)
-    {
-      if (file_lines.at(i)[j] == '\0') { break; } // if we go over the bounds of file_lines
-
-      else if (file_lines.at(i)[j] == required_sequence [j])
-      {
-        match_count++;
-      }
-    }
-    if (match_count == sequence_size) {return i;}
-  }
-  return -1;
-}
-
 std::string find_path (std::string path_line, std::string required_sequence)
 {
   size_t sequence_size = std::size(required_sequence);

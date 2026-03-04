@@ -26,7 +26,7 @@ std::filesystem::path get_md_file_path (std::string& path)
   // Make the path absolute
   const char* home = std::getenv("HOME");
   if (!home) {std::cerr << "There was an error finding the home directory." << std::endl; return {};}
-  std::filesystem::path md_file_path = home;     
+  std::filesystem::path md_file_path = home;
   md_file_path /= path;
 
   return md_file_path;
