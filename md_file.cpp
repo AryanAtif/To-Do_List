@@ -61,20 +61,24 @@ std::string get_file_name (std::filesystem::path &file_path)
 {
   return (std::string)file_path.filename(); 
 }
-  /*
-bool is_md_file_valid (fstream md_file)
+
+bool is_md_file_valid (fstream md_file) // for the file to be "valid" there should be no line in the file that doesn't start with '[]' or '[!]'
 {
   int length = get_file_length (md_file);
+  std::vector <std::string> lines = break_file_into_lines(md_file);
+  char character_read;
 
-  char * md_file_line;
-  int char_read = 0;
-
-  while (md_file_line[0] == ' ' || md_file_line[0] == '[' || md_file_line[0] == '\n')
+  for (int i = 0; i < length; i++)
   {
-    getline 
+    for (int j = 0; j < strlen(lines[i]); j++)
+    {
+      character_read = lines [i][j]; // to make it a bit more readable
+      if (character_read != '[' && character_read != ' ' && character_read != '\n') {return -1;}
+      if (character_read == '\n') {break;}
+    }
   }
 }
-*/
+
 //==============================================================
 //=========== Perform Operations on the file ===================
 //==============================================================
